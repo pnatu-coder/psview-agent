@@ -70,24 +70,22 @@ npm run dev
 
 Deployed URL: https://psview-agent-two.vercel.app
 
-## Deploying (Free Tier: Render + Vercel)
+## How I deployed (Render + Vercel)
 
 The backend deploys to **Render** and the frontend to **Vercel**. Push this repo to your own GitHub first, then:
 
 ### 1. Backend → Render
 
-1. Go to [render.com](https://render.com) → **New +** → **Blueprint**, and point it at your repo. It will detect `render.yaml` and create a web service automatically (root dir `backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`).
+1. Went to [render.com](https://render.com) → **New +** → **Blueprint**, and point it at your repo. It will detect `render.yaml` and create a web service automatically (root dir `backend`, build `pip install -r requirements.txt`, start `uvicorn app.main:app --host 0.0.0.0 --port $PORT`).
    - No `render.yaml` / no Blueprint? Create a **Web Service** manually instead, set **Root Directory** to `backend`, and use the same build/start commands above.
 2. In the service's **Environment** tab, set:
-   - `GROQ_API_KEY` — your key from [console.groq.com](https://console.groq.com)
-   - `ALLOWED_ORIGINS` — leave blank for now, you'll fill it in after step 2
+   - `GROQ_API_KEY` — imported my groq API key that I created, was free.
 3. Deploy. Copy the resulting URL, e.g. `https://psview-agent-backend.onrender.com`.
 
-> **Note on persistence:** agents are stored in a JSON file (`backend/agents_data.json`) on local disk. Render's free web services use an ephemeral filesystem — data survives restarts/sleep but is wiped on a new deploy. Fine for a demo; for real persistence, swap `store.py` for a database or a Render persistent disk.
 
 ### 2. Frontend → Vercel
 
-1. Go to [vercel.com](https://vercel.com) → **Add New** → **Project**, import the same repo.
+1. Went to [vercel.com](https://vercel.com) → **Add New** → **Project**, import the same repo.
 2. Set **Root Directory** to `frontend` (Vercel auto-detects Vite: build `npm run build`, output `dist`).
 3. Add an environment variable:
    - `VITE_API_URL` = your Render backend URL from step 1 (e.g. `https://psview-agent-backend.onrender.com`, no trailing slash)
@@ -95,9 +93,9 @@ The backend deploys to **Render** and the frontend to **Vercel**. Push this repo
 
 ### 3. Connect them
 
-Back in Render, set `ALLOWED_ORIGINS` to your Vercel URL from step 2 (e.g. `https://psview-agent.vercel.app`) and redeploy the backend so CORS allows requests from it.
+Back in Render, I set `ALLOWED_ORIGINS` to your Vercel URL from step 2 (e.g. `https://psview-agent.vercel.app`) and redeploy the backend so CORS allows requests from it.
 
-Visit your Vercel URL — the app should now talk to the live backend.
+Visit the Vercel URL — the app should now talk to the live backend.
 
 ## Tech Stack
 
