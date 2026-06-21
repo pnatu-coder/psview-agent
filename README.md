@@ -68,7 +68,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Deployed URL: https://psview-agent-two.vercel.app
 
 ## Deploying (Free Tier: Render + Vercel)
 
