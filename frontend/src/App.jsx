@@ -6,7 +6,7 @@ import ReasoningPanel from './components/ReasoningPanel'
 import AgentList from './components/AgentList'
 import HowItWorks from './components/HowItWorks'
 
-const API_BASE = 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 function Layout() {
   const navigate = useNavigate()

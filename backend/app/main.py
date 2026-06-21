@@ -1,4 +1,6 @@
 """FastAPI application — API routes for the recruiting agent."""
+import os
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -14,10 +16,16 @@ load_dotenv()
 
 app = FastAPI(title="PSVIEW Recruiting Agent", version="1.0.0")
 
-# CORS for local React dev
+# CORS — local dev origins are always allowed; add your deployed frontend
+# origin(s) via the ALLOWED_ORIGINS env var (comma-separated, e.g.
+# "https://psview-agent.vercel.app,https://www.yourdomain.com").
+_default_origins = ["http://localhost:3000", "http://localhost:5173"]
+_extra_origins = [
+    o.strip() for o in os.getenv("ALLOWED_ORIGINS", "").split(",") if o.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],
+    allow_origins=_default_origins + _extra_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
